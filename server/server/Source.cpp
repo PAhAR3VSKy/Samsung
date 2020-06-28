@@ -3,6 +3,24 @@
 #include <iostream>
 #pragma warning(disable: 4996)
 
+SOCKET Connections[100];
+int Counter = 0;
+
+void ClientHandler(int index)
+{
+	char msg[256];
+	while (true)
+	{
+		recv(Connections[index], msg, sizeof(msg), NULL);
+		for (int i = 0; i < Counter; i++)
+		{
+			if (index == i)
+				continue;
+			send(Connections[i], msg, sizeof(msg), NULL);
+		}
+	}
+}
+
 int main()
 {
 	WSAData wsaData;
@@ -24,15 +42,22 @@ int main()
 	listen(sListen, SOMAXCONN);
 
 	SOCKET newConnection;
-	newConnection = accept(sListen, (SOCKADDR*)&addr, &sizeofaddr);
 
-	if (newConnection == 0)
-		std::cout << "Error #2" << std::endl;
-	else
+	for (int i = 0; i < 100; i++)
 	{
-		std::cout << "connecting" << std::endl;
-		char msg[256] = "asdasdadasdasd";
-		send(newConnection, msg, sizeof(msg), NULL);
+		newConnection = accept(sListen, (SOCKADDR*)&addr, &sizeofaddr);
+
+		if (newConnection == 0)
+			std::cout << "Error #2" << std::endl;
+		else
+		{
+			std::cout << "connecting" << std::endl;
+			char msg[256] = "Connect is ready to work!";
+			send(newConnection, msg, sizeof(msg), NULL);
+			Connections[i] = newConnection;
+			Counter++;
+			CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ClientHandler,(LPVOID)(i), NULL, NULL);
+		}
 	}
 
 	return 0;
