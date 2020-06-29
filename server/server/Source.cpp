@@ -8,15 +8,21 @@ int Counter = 0;
 
 void ClientHandler(int index)
 {
-	char msg[256];
+	int distance;
+	int last_eating;
+	bool choice;
 	while (true)
 	{
-		recv(Connections[index], msg, sizeof(msg), NULL);
+		recv(Connections[index], (char*)&choice, sizeof(choice), NULL);
+		recv(Connections[index], (char*)&distance, sizeof(distance), NULL);
+		recv(Connections[index], (char*)&last_eating, sizeof(last_eating), NULL);
 		for (int i = 0; i < Counter; i++)
 		{
 			if (index == i)
 				continue;
-			send(Connections[i], msg, sizeof(msg), NULL);
+			send(Connections[i], (char*)&choice, sizeof(choice), NULL);
+			send(Connections[i], (char*)&distance, sizeof(distance), NULL);
+			send(Connections[i], (char*)&last_eating, sizeof(last_eating), NULL);
 		}
 	}
 }

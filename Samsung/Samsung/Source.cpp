@@ -8,10 +8,15 @@ SOCKET Connection;
 void ServerHandler()
 {
 	char msg[256];
+	int distance;
+	int last_eating;
 	while (true)
 	{
-		recv(Connection, msg, sizeof(msg), NULL);
-		std::cout << msg << std::endl;
+		//recv(Connection, msg, sizeof(msg), NULL);
+		recv(Connection, (char*)&distance, sizeof(distance), NULL);
+		recv(Connection, (char*)&last_eating, sizeof(last_eating), NULL);
+		std::cout << distance<<std::endl
+			<< last_eating<< std::endl;
 	}
 }
 
@@ -39,7 +44,7 @@ int main()
 	}
 	std::cout << "Connected" << std::endl;
 
-	CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ServerHandler, NULL, NULL, NULL);
+	/*CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ServerHandler, NULL, NULL, NULL);
 
 	char msgl[256];
 	while (true)
@@ -47,6 +52,24 @@ int main()
 		std::cin.getline(msgl, sizeof(msgl));
 		send(Connection, msgl, sizeof(msgl), NULL);
 		Sleep(10);
+	}*/
+
+	char msg[256];
+	int distance;
+	int last_eating;
+	bool choice;
+	while (true)
+	{
+		recv(Connection, (char*)&choice, sizeof(choice), NULL);
+		if (choice == 1)
+		{
+			recv(Connection, (char*)&distance, sizeof(distance), NULL);
+			recv(Connection, (char*)&last_eating, sizeof(last_eating), NULL);
+			std::cout << distance << std::endl
+				<< last_eating << std::endl;
+		}
+		else
+			continue;
 	}
 
 	return 0;

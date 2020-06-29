@@ -3,20 +3,10 @@
 #include <iostream>
 #pragma warning(disable: 4996)
 
-SOCKET Connection;
-
-void ServerHandler()
-{
-	char msg[256];
-	while (true)
-	{
-		recv(Connection, msg, sizeof(msg), NULL);
-		std::cout << msg << std::endl;
-	}
-}
 
 int main()
 {
+	setlocale(LC_ALL, "ru");
 	WSAData wsaData;
 	WORD DLLVersion = MAKEWORD(2, 1);
 	if (WSAStartup(DLLVersion, &wsaData) != 0)
@@ -31,7 +21,7 @@ int main()
 	addr.sin_port = htons(1111);
 	addr.sin_family = AF_INET;
 
-	Connection = socket(AF_INET, SOCK_STREAM, NULL);
+	SOCKET Connection = socket(AF_INET, SOCK_STREAM, NULL);
 	if (connect(Connection, (SOCKADDR*)&addr, sizeofaddr) != 0)
 	{
 		std::cout << "Error connect to server" << std::endl;
@@ -39,14 +29,25 @@ int main()
 	}
 	std::cout << "Connected" << std::endl;
 
-	CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ServerHandler, NULL, NULL, NULL);
-
-	char msgl[256];
+	bool choice = false;
+	int distance;
+	int last_eating;
 	while (true)
 	{
-		std::cin.getline(msgl, sizeof(msgl));
-		send(Connection, msgl, sizeof(msgl), NULL);
-		Sleep(10);
+		std::cout << "Питомец подошел к кормушке?(1-Да 0-Нет)" << std::endl;
+		std::cin >> choice;
+		if (choice == false)
+			continue;
+		else
+		{
+			std::cout << "Сколько прошел питомец с момента последнего приема пищи в метрах: ";
+			std::cin >> distance;
+			std::cout << "Когда питомец последний раз кушал (указать в часах): ";
+			std::cin >> last_eating;
+			send(Connection, (char*)&choice, sizeof(choice), NULL);
+			send(Connection, (char*)&distance, sizeof(distance), NULL);
+			send(Connection, (char*)&last_eating, sizeof(distance), NULL);
+		}
 	}
 
 	return 0;

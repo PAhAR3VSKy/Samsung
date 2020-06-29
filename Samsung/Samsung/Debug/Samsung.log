@@ -1,1 +1,4 @@
-﻿  Samsung.vcxproj -> C:\projectGit\Samsung\Samsung\Debug\Samsung.exe
+﻿  Source.cpp
+C:\projectGit\Samsung\Samsung\Samsung\Source.cpp(10,7): warning C4101: msg: неиспользованная локальная переменная
+C:\projectGit\Samsung\Samsung\Samsung\Source.cpp(57,7): warning C4101: msg: неиспользованная локальная переменная
+  Samsung.vcxproj -> C:\projectGit\Samsung\Samsung\Debug\Samsung.exe
