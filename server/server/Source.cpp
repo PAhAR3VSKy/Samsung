@@ -16,6 +16,10 @@ void ClientHandler(int index)
 		recv(Connections[index], (char*)&choice, sizeof(choice), NULL);
 		recv(Connections[index], (char*)&distance, sizeof(distance), NULL);
 		recv(Connections[index], (char*)&last_eating, sizeof(last_eating), NULL);
+		if (last_eating > 11 || (last_eating > 5 && distance > 300) || distance > 900)
+		{
+
+		}
 		for (int i = 0; i < Counter; i++)
 		{
 			if (index == i)
