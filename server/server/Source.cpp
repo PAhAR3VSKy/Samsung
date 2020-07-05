@@ -6,6 +6,7 @@
 SOCKET Connections[100];
 int Counter = 0;
 
+
 void ClientHandler(int index)
 {
 	int distance;
@@ -16,17 +17,41 @@ void ClientHandler(int index)
 		recv(Connections[index], (char*)&choice, sizeof(choice), NULL);
 		recv(Connections[index], (char*)&distance, sizeof(distance), NULL);
 		recv(Connections[index], (char*)&last_eating, sizeof(last_eating), NULL);
-		if (last_eating > 11 || (last_eating > 5 && distance > 300) || distance > 900)
+		if (last_eating > 11 && distance < 200)
 		{
-
+			for (int i = 0; i < Counter; i++)
+			{
+				int data = 1;
+				if (index == i)
+					continue;
+				send(Connections[i], (char*)&choice, sizeof(choice), NULL);
+				send(Connections[i], (char*)&data, sizeof(data), NULL);
+			}
+			//наложить полную миску
 		}
-		for (int i = 0; i < Counter; i++)
+		else if (last_eating > 5 && distance > 200)
 		{
-			if (index == i)
-				continue;
-			send(Connections[i], (char*)&choice, sizeof(choice), NULL);
-			send(Connections[i], (char*)&distance, sizeof(distance), NULL);
-			send(Connections[i], (char*)&last_eating, sizeof(last_eating), NULL);
+			for (int i = 0; i < Counter; i++)
+			{
+				int data = 2;
+				if (index == i)
+					continue;
+				send(Connections[i], (char*)&choice, sizeof(choice), NULL);
+				send(Connections[i], (char*)&data, sizeof(data), NULL);
+			}
+			//наложить часть миски
+		}
+		else
+		{
+			for (int i = 0; i < Counter; i++)
+			{
+				int data = 0;
+				if (index == i)
+					continue;
+				send(Connections[i], (char*)&choice, sizeof(choice), NULL);
+				send(Connections[i], (char*)&data, sizeof(data), NULL);
+			}
+			//ничего не накладывать
 		}
 	}
 }

@@ -10,18 +10,16 @@ void ServerHandler()
 	char msg[256];
 	int distance;
 	int last_eating;
+	int data;
 	while (true)
 	{
-		//recv(Connection, msg, sizeof(msg), NULL);
-		recv(Connection, (char*)&distance, sizeof(distance), NULL);
-		recv(Connection, (char*)&last_eating, sizeof(last_eating), NULL);
-		std::cout << distance<<std::endl
-			<< last_eating<< std::endl;
+		
 	}
 }
 
 int main()
 {
+	setlocale(LC_ALL, "ru");
 	WSAData wsaData;
 	WORD DLLVersion = MAKEWORD(2, 1);
 	if (WSAStartup(DLLVersion, &wsaData) != 0)
@@ -55,21 +53,28 @@ int main()
 	}*/
 
 	char msg[256];
-	int distance;
+	int data;
 	int last_eating;
 	bool choice;
 	while (true)
 	{
 		recv(Connection, (char*)&choice, sizeof(choice), NULL);
-		if (choice == 1)
+		recv(Connection, (char*)&data, sizeof(data), NULL);
+		if (choice == true)
 		{
-			recv(Connection, (char*)&distance, sizeof(distance), NULL);
-			recv(Connection, (char*)&last_eating, sizeof(last_eating), NULL);
-			std::cout << distance << std::endl
-				<< last_eating << std::endl;
+			switch (data)
+			{
+			case 0:
+				std::cout << "Не накладывать корм!" << std::endl;
+				break;
+			case 1:
+				std::cout << "Наложить 45 грамм порции!" << std::endl;
+				break;
+			case 2:
+				std::cout << "Наложить полную порцию 90 грамм!" << std::endl;
+				break;
+			}
 		}
-		else
-			continue;
 	}
 
 	return 0;
