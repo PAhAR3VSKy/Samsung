@@ -13,6 +13,7 @@ void ClientHandler(int index)
 	int last_eating;
 	int weight = 0;
 	int eaten_back = 0;
+	int data;
 	bool choice;
 	while (true)
 	{
@@ -23,9 +24,9 @@ void ClientHandler(int index)
 		if (last_eating > 11)
 		{
 			eaten_back += (weight * 40) / 3;
+			data = 1;
 			for (int i = 0; i < Counter; i++)
 			{
-				int data = 1;
 				if (i == index)
 					continue;
 				send(Connections[i], (char*)&choice, sizeof(choice), NULL);
@@ -38,9 +39,9 @@ void ClientHandler(int index)
 		else if (last_eating > 5 && distance > 150)
 		{
 			eaten_back += (weight * 40) / 6;
+			data = 2;
 			for (int i = 0; i < Counter; i++)
 			{
-				int data = 2;
 				if (index == i)
 					continue;
 				send(Connections[i], (char*)&choice, sizeof(choice), NULL);
@@ -52,9 +53,9 @@ void ClientHandler(int index)
 		}
 		else
 		{
+			data = 0;
 			for (int i = 0; i < Counter; i++)
 			{
-				int data = 0;
 				if (index == i)
 					continue;
 				send(Connections[i], (char*)&choice, sizeof(choice), NULL);
