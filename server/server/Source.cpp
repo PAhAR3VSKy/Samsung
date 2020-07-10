@@ -11,26 +11,33 @@ void ClientHandler(int index)
 {
 	int distance;
 	int last_eating;
+	int weight = 0;
+	int eaten_back = 0;
 	bool choice;
 	while (true)
 	{
+		recv(Connections[index], (char*)&weight, sizeof(weight), NULL);
 		recv(Connections[index], (char*)&choice, sizeof(choice), NULL);
 		recv(Connections[index], (char*)&distance, sizeof(distance), NULL);
 		recv(Connections[index], (char*)&last_eating, sizeof(last_eating), NULL);
-		if (last_eating > 11 && distance < 200)
+		if (last_eating > 11)
 		{
+			eaten_back += (weight * 40) / 3;
 			for (int i = 0; i < Counter; i++)
 			{
 				int data = 1;
-				if (index == i)
+				if (i == index)
 					continue;
 				send(Connections[i], (char*)&choice, sizeof(choice), NULL);
 				send(Connections[i], (char*)&data, sizeof(data), NULL);
+				send(Connections[i], (char*)&eaten_back, sizeof(eaten_back), NULL);
+				send(Connections[i], (char*)&weight, sizeof(weight), NULL);
 			}
 			//наложить полную миску
 		}
-		else if (last_eating > 5 && distance > 200)
+		else if (last_eating > 5 && distance > 150)
 		{
+			eaten_back += (weight * 40) / 6;
 			for (int i = 0; i < Counter; i++)
 			{
 				int data = 2;
@@ -38,6 +45,8 @@ void ClientHandler(int index)
 					continue;
 				send(Connections[i], (char*)&choice, sizeof(choice), NULL);
 				send(Connections[i], (char*)&data, sizeof(data), NULL);
+				send(Connections[i], (char*)&eaten_back, sizeof(eaten_back), NULL);
+				send(Connections[i], (char*)&weight, sizeof(weight), NULL);
 			}
 			//наложить часть миски
 		}
@@ -50,6 +59,8 @@ void ClientHandler(int index)
 					continue;
 				send(Connections[i], (char*)&choice, sizeof(choice), NULL);
 				send(Connections[i], (char*)&data, sizeof(data), NULL);
+				send(Connections[i], (char*)&eaten_back, sizeof(eaten_back), NULL);
+				send(Connections[i], (char*)&weight, sizeof(weight), NULL);
 			}
 			//ничего не накладывать
 		}
@@ -77,6 +88,8 @@ int main()
 	listen(sListen, SOMAXCONN);
 
 	SOCKET newConnection;
+
+	Sleep(1000);
 
 	for (int i = 0; i < 100; i++)
 	{

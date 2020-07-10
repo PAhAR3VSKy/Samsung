@@ -1,8 +1,2 @@
 ﻿  Source.cpp
-D:\ProjectGit\Samsung\Samsung\Samsung\Source.cpp(10,7): warning C4101: msg: неиспользованная локальная переменная
-D:\ProjectGit\Samsung\Samsung\Samsung\Source.cpp(11,6): warning C4101: distance: неиспользованная локальная переменная
-D:\ProjectGit\Samsung\Samsung\Samsung\Source.cpp(13,6): warning C4101: data: неиспользованная локальная переменная
-D:\ProjectGit\Samsung\Samsung\Samsung\Source.cpp(12,6): warning C4101: last_eating: неиспользованная локальная переменная
-D:\ProjectGit\Samsung\Samsung\Samsung\Source.cpp(55,7): warning C4101: msg: неиспользованная локальная переменная
-D:\ProjectGit\Samsung\Samsung\Samsung\Source.cpp(57,6): warning C4101: last_eating: неиспользованная локальная переменная
-  Samsung.vcxproj -> D:\ProjectGit\Samsung\Samsung\Debug\Samsung.exe
+  Samsung.vcxproj -> C:\projectGit\Samsung\Samsung\Debug\Samsung.exe
