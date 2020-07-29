@@ -4,37 +4,7 @@
 #pragma warning(disable: 4996)
 
 SOCKET Connection;
-void ClientHandler()
-{
-	int data;
-	int last_eating = 0;
-	int eaten_back = 0;
-	int weight = 0;
-	bool choice;
-	while (true)
-	{
-		recv(Connection, (char*)&choice, sizeof(choice), NULL);
-		recv(Connection, (char*)&data, sizeof(data), NULL);
-		recv(Connection, (char*)&eaten_back, sizeof(eaten_back), NULL);
-		recv(Connection, (char*)&weight, sizeof(weight), NULL);
-		if (choice == true)
-		{
-			std::cout << "Ваш питомец сегодня съел " << eaten_back << " грамм корма" << std::endl;
-			switch (data)
-			{
-			case 0:
-				std::cout << "Не накладывать корм!" << std::endl;
-				break;
-			case 1:
-				std::cout << "Наложить " << (weight * 40) / 3 << " грамм порции!" << std::endl;
-				break;
-			case 2:
-				std::cout << "Наложить полную порцию " << (weight * 40) / 6 << " грамм!" << std::endl;
-				break;
-			}
-		}
-	}
-}
+
 
 int main()
 {
@@ -61,15 +31,7 @@ int main()
 	}
 	std::cout << "Connected" << std::endl;
 
-	/*CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ClientHandler, NULL, NULL, NULL);
 	
-	char msg[256];
-	while (true)
-	{
-		std::cin.getline(msg, sizeof(msg));
-		send(Connection, msg, sizeof(msg), NULL);
-		Sleep(10);
-	}*/
 
 	int data;
 	int last_eating = 0;
@@ -100,36 +62,6 @@ int main()
 		}
 	}
 
-	/*char msg[256];
-	int data = 0;
-	int last_eating = 0;
-	int eaten_back = 0;
-	int weight = 0;
-	bool choice;
-	while (true)
-	{
-		Sleep(100);
-		recv(Connection, (char*)&choice, sizeof(choice), NULL);
-		recv(Connection, (char*)&data, sizeof(data), NULL);
-		recv(Connection, (char*)&eaten_back, sizeof(eaten_back), NULL);
-		recv(Connection, (char*)&weight, sizeof(weight), NULL);
-		std::cout << "Ваш питомец сегодня съел " << eaten_back << " грамм корма" << std::endl;
-		if (choice == true)
-		{
-			switch (data)
-			{
-			case 0:
-				std::cout << "Не накладывать корм!" << std::endl;
-				break;
-			case 1:
-				std::cout << "Наложить "<<(weight*40)/3<<" грамм порции!" << std::endl;
-				break;
-			case 2:
-				std::cout << "Наложить полную порцию " << (weight * 40) / 6 << " грамм!" << std::endl;
-				break;
-			}
-		}
-	}*/
 
 	return 0;
 }

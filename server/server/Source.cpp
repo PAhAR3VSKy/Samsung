@@ -21,7 +21,7 @@ void ClientHandler(int index)
 		recv(Connections[index], (char*)&choice, sizeof(choice), NULL);
 		recv(Connections[index], (char*)&distance, sizeof(distance), NULL);
 		recv(Connections[index], (char*)&last_eating, sizeof(last_eating), NULL);
-		if (last_eating > 11)
+		if (last_eating > 7)
 		{
 			eaten_back += (weight * 40) / 3;
 			data = 1;
@@ -36,7 +36,7 @@ void ClientHandler(int index)
 			}
 			//наложить полную миску
 		}
-		else if (last_eating > 5 && distance > 150)
+		else if (last_eating > 3 && distance > 100)
 		{
 			eaten_back += (weight * 40) / 6;
 			data = 2;
@@ -65,6 +65,7 @@ void ClientHandler(int index)
 			}
 			//ничего не накладывать
 		}
+
 	}
 }
 
